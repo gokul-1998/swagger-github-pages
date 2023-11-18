@@ -1,0 +1,2382 @@
+openapi: 3.0.3
+info:
+  title: PathLearning API
+  version: 1.0.0.0
+  description: API for learning study path
+servers:
+  - url: http://127.0.0.1:5000
+    variables: {}
+paths:
+  /user/signup:
+    summary: For registering a User as a guest
+    description: >-
+      Anyone can register as a guest. Anyone can register. However a user with a
+      IITM domain shall be warned to login as a student or faculty For
+      interestes - possible choices from reading, sports, video games, cultural,
+      others 
+    post:
+      summary: The user details are added into the User database.
+      description: The user details are added into the User database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Priyanka Nathani
+                username:
+                  type: string
+                  example: pn123
+                email:
+                  type: string
+                  example: pn@abc.com
+                password:
+                  type: string
+                  example: x1#4
+                interests:
+                  type: boolean
+                  example: true
+      operationId: '1'
+      responses:
+        '201':
+          description: success - return newly created object
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                      type: integer
+                      example: null
+                  name:
+                      type: string
+                      example: Priyanka Nathani
+                  username:
+                      type: string
+                      example: pn123
+                  email:
+                        type: string
+                        example: pn@abc.com
+                  interests:
+                    type: boolean
+                    example: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '401':
+          description: Not registered IITM student or faculty
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not a registered IITM student or faculty member.
+                    Pls register as guest
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Registrations
+  /user/login:
+    summary: For logging in a registered User as a guest
+    description: >-
+      Anyone can login as a guest however if a person with IITM domain tries to
+      login, a prompt to login as a student/faculty shall be issued
+    post:
+      summary: A registered user is login
+      description: Registered users with can login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username/email:
+                  type: string
+                  example: pn@abc.com
+                password:
+                  type: string
+                  example: x1#4
+      operationId: '2'
+      responses:
+        '200':
+          description: success - return data of registered user
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Priyanka Nathani
+                  username:
+                    type: string
+                    example: pn123
+                  email:
+                    type: string
+                    example: pn@abc.com
+                  token:
+                    type: string
+                    example: R9qMU0txZtI0i9spfvYLwWzwdRrJTWsa
+                  interests:
+                    type: boolean
+                    example: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '401':
+          description: User not registered is trying to login
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not registered.
+                    Pls register as guest/student/faculty
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Logins
+  /student/signup:
+    summary: For registering a student
+    description: IITM student is identified by the IITM domain
+    post:
+      summary: The user details are added into the User database.
+      description: >-
+        The user details are added into the User database as a student For
+        interestes - possible choices from reading, sports, video games,
+        cultural, others For qualification - possible choices from primary
+        degree, 12th, diploma, UG, PG, PhD, post doc For profession - Student,
+        teacher, banker, doctor, engineer, other
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Priyanka Nathani
+                email:
+                  type: string
+                  example: pn@abc.com
+                country:
+                  type: integer
+                  example: 91
+                password:
+                  type: string
+                  example: x1#4
+                interests:
+                  type: string
+                  example: sports
+                age:
+                  type: integer
+                  example: 20
+                profession:
+                  type: string
+                  example: student
+                qualification:
+                  type: string
+                  example: diploma
+      operationId: '3'
+      responses:
+        '201':
+          description: success - return newly created object
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Priyanka Nathani
+                  email:
+                    type: string
+                    example: pn@abc.com
+                  country:
+                    type: integer
+                    example: 91
+                  password:
+                    type: string
+                    example: x1#4
+                  interests:
+                    type: string
+                    example: sports
+                  age:
+                    type: integer
+                    example: 20
+                  profession:
+                    type: string
+                    example: student
+                  qualification:
+                    type: string
+                    example: diploma
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '401':
+          description: Not an IITM student/faculty
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not an IITM student.
+                    Pls register as guest
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Registrations
+  /student/login:
+    summary: For logging in a registered student
+    description: >-
+      Users with IITM email domain and who is permitted by the admin as a
+      student
+    post:
+      summary: A registered and oermitted student can login
+      description: Registered student with prerequisite permissions can login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Priyanka Nathani
+                email:
+                  type: string
+                  example: pn@abc.com
+                country:
+                  type: integer
+                  example: 91
+                roll_no:
+                  type: string
+                  example: 21f1005807
+                password:
+                  type: string
+                  example: x1#4
+      operationId: '4'
+      responses:
+        '201':
+          description: success - return data of registered user
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  student_id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Priyanka Nathani
+                  email:
+                    type: string
+                    example: pn@abc.com
+                  token:
+                    type: string
+                    example: R9qMU0txZtI0i9spfvYLwWzwdRrJTWsa
+                  country:
+                    type: integer
+                    example: 91
+                  interests:
+                    type: string
+                    example: sports
+                  age:
+                    type: integer
+                    example: 20
+                  profession:
+                    type: string
+                    example: student
+                  qualification:
+                    type: string
+                    example: diploma
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '401':
+          description: Student not having IITM email ID is trying to login
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are an IITM student/faculty.
+                    Pls login as guest
+        '403':
+          description: Student not registered is trying to login
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not registered.
+                    Pls register as guest/student/faculty
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Logins
+  /faculty/signup:
+    summary: For registering a faculty
+    description: IITM faculty is identified by the IITM domain
+    post:
+      summary: The faculty details are added into the User database.
+      description: The user details are added into the User database as a faculty
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Priyanka Nathani
+                email:
+                  type: string
+                  example: pn@abc.com
+                education:
+                  type: string
+                  example: PhD
+                experience:
+                  type: integer
+                  example: 10
+                password:
+                  type: string
+                  example: x1#4
+      operationId: '5'
+      responses:
+        '201':
+          description: success - return newly created object
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  faculty_id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Priyanka Nathani
+                  email:
+                    type: string
+                    example: pn@abc.com
+                  education:
+                    type: string
+                    example: PhD
+                  experience:
+                    type: integer
+                    example: 10
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '403':
+          description: Not an IITM student/faculty
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not an IITM student.
+                    Pls register as guest
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Registrations
+  /faculty/login:
+    summary: For logging in a registered faculty
+    description: >-
+      Users with IITM email domain and who is permitted by the admin as a
+      faculty
+    post:
+      summary: A registered and permitted faculty can login
+      description: Registered faculty with prerequisite permissions can login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username/email:
+                  type: string
+                  example: pn@abc.com
+                password:
+                  type: string
+                  example: x1#4
+      operationId: '6'
+      responses:
+        '201':
+          description: success - return data of registered faculty
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  faculty_id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Priyanka Nathani
+                  email:
+                    type: string
+                    example: pn@abc.com
+                  token:
+                    type: string
+                    example: R9qMU0txZtI0i9spfvYLwWzwdRrJTWsa
+                  education:
+                    type: string
+                    example: PhD
+                  experience:
+                    type: integer
+                    example: 10
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '401':
+          description: >-
+            Faculty not registered or not having pre-requisite permissions is
+            trying to login
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not registered.
+                    Pls register as guest/student/faculty
+        '403':
+          description: Faculty not having IITM email ID is trying to login
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not an IITM faculty.
+                    Pls login as guest
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Logins
+  /admin/signup:
+    summary: For registering an admin
+    description: IITM admin is identified by the IITM domain
+    post:
+      summary: The admin details are added into the User database.
+      description: The admin details are added into the User database as a faculty
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Priyanka Nathani
+                email:
+                  type: string
+                  example: pn@abc.com
+                password:
+                  type: string
+                  example: x1#4
+      operationId: '7'
+      responses:
+        '201':
+          description: success - return newly created object
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Priyanka Nathani
+                  email:
+                    type: string
+                    example: pn@abc.com
+                  password:
+                    type: string
+                    example: x1#4
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '403':
+          description: Not an IITM student/faculty
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not an IITM admin.
+                    Pls register as guest
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Registrations
+  /admin/login:
+    summary: For logging in a registered admin
+    description: Users with IITM email domain and who is permitted by the as an admin
+    post:
+      summary: A registered and permitted admin can login
+      description: Registered admin with prerequisite permissions can login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username/email:
+                  type: string
+                  example: pn@abc.com
+                password:
+                  type: string
+                  example: x1#4
+      operationId: '8'
+      responses:
+        '200':
+          description: success - return data of registered admin
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: R9qMU0txZtI0i9spfvYLwWzwdRrJTWsa
+                  admin_id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Priyanka Nathani
+                  email:
+                    type: string
+                    example: pn@abc.com
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '401':
+          description: >-
+            admin not registered or not having pre-requisite permissions is
+            trying to login
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not registered admin.
+                    Pls register as guest/student/faculty
+        '403':
+          description: user not having IITM email ID is trying to login as admin
+          content:
+            application/json:
+              examples:
+                Sample 301 response:
+                  value: |-
+                    You are not an IITM member.
+                    Pls login as guest
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Logins
+  /logout:
+    summary: For logging out a logged in User
+    description: Anyone who is logged in can logout
+    get:
+      summary: A logged-in user is logged out
+      description: A logged-in user can be logged out
+      operationId: '9'
+      responses:
+        '201':
+          description: success - log out the logged in user
+          content:
+            application json:
+              examples:
+                Sample 201 input:
+                  value: You have successfully logged out
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Logout
+  /review:
+    summary: 'Logged-in Student can review the completed courses '
+    description: >-
+      the logged in Student can see the list of completed couses and can rate
+      them 1 to 5
+    get:
+      summary: Get list of courses that the logged in student has completed
+      description: >-
+        Get list of courses that the logged-in student has completed. A list of
+        courses with course ids is included in the database as a separate table
+      operationId: '10'
+      responses:
+        '201':
+          description: to get the list of completed courses
+          content:
+            application json:
+              schema:
+                type: object
+                properties:
+                  courses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        course_name:
+                          type: string
+                          example: maths2
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - review related
+    post:
+      summary: The logged-in Student can review the course completed by them
+      description: >-
+        The logged-in Student can see the list of completed courses and can
+        review them on difficulty level (1-5), hours per week required to
+        devote(<10, 10-20, >20), whether lectures are sufficient (Yes/No), Rate
+        the lectures (1-5)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course id:
+                  type: integer
+                  example: 5
+                What is the difficulty level of the course:
+                  type: integer
+                  example: 4
+                How many hours are required to devote to the subject:
+                  type: integer
+                  example: 15
+                whether lectures are sufficient:
+                  type: boolean
+                  example: 'Yes'
+                Rate the lectures:
+                  type: integer
+                  example: 5
+      operationId: '11'
+      responses:
+        '201':
+          description: success - Review done
+          content:
+            application json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    What is the difficulty level of the course:
+                      type: integer
+                      example: 4
+                    How many hours are required to devote to the subject:
+                      type: integer
+                      example: 410-20
+                    whether lectures are sufficient:
+                      type: boolean
+                      example: 'Yes'
+                    Rate the lectures:
+                      type: boolean
+                      example: 'Yes'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '403':
+          description: If nil courses are completed as yet
+          content:
+            application/json:
+              examples:
+                Sample 302 response:
+                  value: >-
+                    Sorry you cannot review as you have yet to complete any
+                    course
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - review related
+  /profile:
+    summary: view student details
+    get:
+      summary: To view student profile of the logged in student
+      description: >-
+        Following details of the logged-in student can be viewed - name, email,
+        roll no, number of courses completed, level in which the student is
+        enrolled, cgpa, completed courses along with marks scored 
+      operationId: '12'
+      responses:
+        '201':
+          description: student profile can be viewed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    student_id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: Priyanka Nathani
+                    email:
+                      type: string
+                      example: string21f1005807@ds.study.iitm.ac.in
+                    roll_no:
+                      type: string
+                      example: 21f1005807
+                    num_of_courses_completed:
+                      type: integer
+                      example: 8
+                    level:
+                      type: string
+                      example: Foundation
+                    cgpa:
+                      type: number
+                      example: 10
+                    performance analysis:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          course_name:
+                            type: string
+                            example: maths2
+                          marks:
+                            type: integer
+                            example: 88
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - student profile related
+  /assessment_form:
+    summary: To fill self details of the logged in guest or student
+    description: >-
+      The given details will be used to give the learning path for the guests or
+      student
+    post:
+      summary: >-
+        To fill the self assessment form by the guest or student to get learning
+        path
+      description: >-
+        The form will be in form of choosing the answer and the response will be
+        saved in the form of the table. The questions will be - Number of hours
+        per week can you devote to studies (<20, 20, 30, 40, 50, >50),  Do you
+        have knowledge of maths?(10th, 12th, UG, PG, PhD, Post Doc),  Do you
+        have knowledge of computers?(10th, 12th, UG, PG, PhD, Post Doc), 
+        Highest education(12th, diploma, UG, PG, PhD, Post Doc), 
+        Profession(Primary degree, student, teacher, computer engineer, banker,
+        doctor, other). Interests(Reading, playing video games, sports, artistic
+        like dancing/singing)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Number of hours per week can you devote to studies:
+                  type: integer
+                  example: 20
+                Do you have knowledge of maths?:
+                  type: string
+                  example: BSc
+                Do you have knowledge of computers?:
+                  type: string
+                  example: BSc
+                Highest education:
+                  type: string
+                  example: MSc
+                Profession:
+                  type: boolean
+                  example: Primary degree
+                Interests:
+                  type: string
+                  example: reading
+      operationId: '13'
+      responses:
+        '201':
+          description: >-
+            The logged-in guest/student inputs required data to estimate his
+            learning path
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Number of hours per week can you devote to studies:
+                      type: integer
+                      example: 20,
+                    Do you have knowledge of maths?:
+                      type: string
+                      example: 12th
+                    Do you have knowledge of computers?:
+                      type: string
+                      example: 12th
+                    Highest education:
+                      type: string
+                      example: 12th
+                    Profession:
+                      type: string
+                      example: Primary degree,
+                    Interests:
+                      type: string
+                      example: Reading
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+      tags:
+        - Learning path regarding
+    get:
+      summary: The logged-in guest can get his study path recommendation
+      description: >-
+        Study path is recommended based on the guest's inputs in self-assessment
+        and the student reviews
+      operationId: '14'
+      responses:
+        '201':
+          description: learning path for the guest can be viewed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: Priyanka Nathani
+                    Recommended study path:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          level:
+                            type: string
+                            example: foundation
+                          term:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                term:
+                                  type: string
+                                  example: term1
+                                subjects:
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: Subject Name
+                    No of terms required to finish foundation:
+                      type: integer
+                      example: 2
+                    No of terms required to finish diploma in data Science:
+                      type: integer
+                      example: 2
+                    No of terms required to finish diploma in programming:
+                      type: integer
+                      example: 2
+                    No of terms required to finish BSc Degree:
+                      type: integer
+                      example: 2
+                    No of terms required to finish BS Degree:
+                      type: integer
+                      example: 2
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+        default:
+          description: Default error sample response
+      tags:
+        - Learning path regarding
+  /levels/{level_id}:
+    summary: Logged-in student can go to level specific page
+    description: >-
+      The student can see courses in that level,  faculty members for each
+      course,  instructors for each course, average study time required for the
+      course,  number of students enrolled in the given course if the latest
+      term,  number of students who scored more than average marks in last term,
+      number of students who scored less than average marks in last term,
+      average rating given to the course
+    get:
+      summary: The logged-in student can see the required details of the chosen level
+      description: ''
+      parameters:
+        - name: level_id
+          in: path
+          description: Identification of the level
+          required: true
+          schema:
+            type: integer
+            example: 1
+      operationId: '15'
+      responses:
+        '201':
+          description: learning path for the guest can be viewed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Courses:
+                      type: string
+                      example: List of courses in the level
+                    Faculty member:
+                      type: string
+                      example: Mitesh Khapra
+                    Instructor:
+                      type: string
+                      example: Arun
+                    Study time in hours:
+                      type: integer
+                      example: 10
+                    No of students enrolled in the given term:
+                      type: integer
+                      example: 103
+                    No of students who scored more than the average marksin the last term:
+                      type: integer
+                      example: 32
+                    No of students who scored less than the average marksin the last term:
+                      type: integer
+                      example: 64
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+        default:
+          description: Default error sample response
+      tags:
+        - details of courses in level and student score
+  /student/course/{course_id}:
+    summary: Logged-in student can submit review for the course
+    description: ''
+    put:
+      summary: To add review by the logged-in student
+      description: >-
+        If a student has already completed a course, he/she can give their
+        feedback. Else review is not permitted
+      parameters:
+        - name: course_id
+          in: path
+          description: Identification of the course
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Number of hours devoted per week to this course:
+                  type: integer
+                  example: 15
+                Rate the course:
+                  type: integer
+                  example: 4
+      operationId: '16'
+      responses:
+        '201':
+          description: learning path for the guest can be viewed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Courses:
+                      type: string
+                      example: List of subjects in the level
+                    Faculty member:
+                      type: string
+                      example: Mitesh Khapra
+                    Instructor:
+                      type: string
+                      example: Arun
+                    Study time in hours:
+                      type: integer
+                      example: 10
+                    No of students enrolled in the given term:
+                      type: integer
+                      example: 103
+                    No of students who scored more than the average marksin the last term:
+                      type: integer
+                      example: 32
+                    No of students who scored more than the average marks in the last term:
+                      type: integer
+                      example: 64
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '401':
+          description: Student who has not completed this course is trying to review
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: You can review only completed courses
+        '403':
+          description: Guest is trying to review
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: You can review only the ratings
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+        default:
+          description: Default error sample response
+      tags:
+        - Student course rating
+  /courses/{course_id}:
+    summary: To see the details of individual courses by logged-in student
+    description: >-
+      The logged in student clicks on the individual course on home page to
+      reach individual course page
+    get:
+      summary: Browse individual course page by logged-in student
+      description: >-
+        Logged-in Student can see individual course details by clicking on
+        individual courses. Follwoing details can be seen: Pre-requisites, No of
+        students currently enrolled, No of students who have completed the
+        course, Links to course videos, Links to external resources, Link to
+        current wtsapp group
+      parameters:
+        - name: course_id
+          in: path
+          description: Identification of the course
+          required: true
+          schema:
+            type: integer
+            example: 1
+      operationId: '17'
+      responses:
+        '201':
+          description: learning path for the guest can be viewed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Pre-requisites:
+                      type: string
+                      example: None
+                    No of students currently enrolled:
+                      type: integer
+                      example: 108
+                    No of students who have completed the course:
+                      type: integer
+                      example: 65
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '403':
+          description: Guest is tries to go to this page
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Only enrolled IITM students are permitted
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal Error
+        default:
+          description: Default error sample response
+      tags:
+        - Course related
+  /faculty/profile:
+    summary: The logged in faculty can see their profile
+    description: Details of the logged in faculty
+    get:
+      summary: Profile page of the faculty
+      description: >-
+        The logged in faculty can see details following details:  profile
+        picture, name,  qualification,  experience,  current status of
+        faculty(active, not-active), additional information(list ofcourses taken by the faculty besides the present online course), summary statistics of the course being taken by the faculty on the online BS degree (Average rating, No of  students enrolled, No of students passed out, No of student who have scored above avg marks)
+      operationId: '18'
+      responses:
+        '201':
+          description: Profile of the logged in faculty can be viewed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    profile picture:
+                      type: string
+                      example: picture
+                    name:
+                      type: string
+                      example: Mitesh Khapra
+                    qualification:
+                      type: string
+                      example: Post doc
+                    experience:
+                      type: integer
+                      example: 13
+                    current status of faculty:
+                      type: string
+                      example: active
+                    information:
+                      type: string
+                      example: >-
+                        list of subjects faculty member taking online and
+                        off-line
+                    Average rating:
+                      type: integer
+                      example: 5
+                    No of  students enrolled:
+                      type: integer
+                      example: 78
+                    No of students passed out:
+                      type: integer
+                      example: 106
+                    No of student who have scored above avg marks:
+                      type: integer
+                      example: 31
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Bad response
+        '403':
+          description: Guest tries to go to this page
+          content:
+            application/json:
+              examples:
+                Sample 400 response:
+                  value: Only faculty members are permitted
+        '500':
+          description: failure - internal error
+          content:
+            application json:
+              examples:
+                Sample 500 example:
+                  value: Internal error
+        default:
+          description: Default error sample response
+      tags:
+        - Faculty related
+  /statistics/descriptive/{term_id}:
+    summary: statistics for faculty to view
+    get:
+      tags:
+        - statistics
+      summary: termwise statistics of enrolled students
+      description: >-
+        For the given term - Number of students in Foundation, number of
+        students going from Foundation to Diploma level, Number of students in
+        Diploma in Data Science, Number of students in Diploma Programming,
+        number of students going from Diploma to BSc level, Number of students
+        in BSc, number of students going from BSc to BS, Number of students in
+        BS
+      parameters:
+        - name: term_id
+          in: path
+          description: Identification number for a specific term.
+          required: true
+          schema:
+            type: integer
+            example: 10
+      operationId: '21'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Number of students in foundation: 
+                    type: integer
+                    example: 30
+                  Number of students in diploma_ds:
+                    type: integer
+                    example: 30
+                  No of student going from foundation to diploma:
+                    type: integer
+                    example: 30
+                  Number of students in diploma_prog:
+                    type: integer
+                    example: 30
+                  No of student going from diploma to BSc:
+                    type: integer
+                    example: 30
+                  Number of students in BSc:
+                    type: integer
+                    example: 30
+                  No of student going from BSc to BS:
+                    type: integer
+                    example: 30
+                  Number of students in BS:
+                    type: integer
+                    example: 30
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+ 
+  /statistics/cgpa-distribution/{term_id}:
+    summary: statistics for faculty to view
+    get:
+      tags:
+        - statistics
+      summary: termwise CGPA distribution of students
+      description: CGPA Distribution of students for a given term for the chosen level
+      parameters:
+        - name: term_id
+          in: path
+          description: Identification number for a specific term.
+          required: true
+          schema:
+            type: integer
+            example: 10
+      operationId: '23'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  CGPA <4: 
+                    type: integer
+                    example: 30
+                  CGPA 4-5:
+                    type: integer
+                    example: 30
+                  CGPA 5-6:
+                    type: integer
+                    example: 30
+                  CGPA 6-7:
+                    type: integer
+                    example: 30
+                  CGPA 7-8:
+                    type: integer
+                    example: 30
+                  CGPA 8-9:
+                    type: integer
+                    example: 30
+                  CGPA >9:
+                    type: integer
+                    example: 30
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+  /statistics/age-distribution:
+    summary: statistics for faculty to view - age breakup of students
+    get:
+      tags:
+        - statistics
+      summary: agewise statistics of enrolled students
+      description: Age-wise Distribution of students
+      operationId: '24'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Age <20: 
+                    type: integer
+                    example: 30
+                  Age 20-30:
+                    type: integer
+                    example: 30
+                  Age 30-40:
+                    type: integer
+                    example: 30
+                  Age 40-50:
+                    type: integer
+                    example: 30
+                  Age >50:
+                    type: integer
+                    example: 30
+                  
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+  /course/details/{term_id}:
+    summary: table for support team to view
+    get:
+      tags:
+        - Course
+      summary: table with details
+      description: >-
+        table consists of: table consists of: Course, Professor, Instructors,
+        Students, Term
+      operationId: '25'
+      parameters:
+        - name: term_id
+          in: path
+          description: Identification number for a specific term.
+          required: true
+          schema:
+            type: integer
+            example: 10
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    course_id:
+                      type: integer
+                      example: 3
+                    course:
+                      type: string
+                      example: Software Engineering
+                    professors:
+                      type: array
+                      items:
+                        type: string
+                        example: 
+                          - faculty name
+                    instructors:
+                      type: array
+                      items:
+                        type: string
+                        example: 
+                          - instructor name
+                    students:
+                      type: array
+                      items:
+                        type: string
+                        example: 
+                          - student name
+                    term:
+                      type: string
+                      example: September
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+    post:
+      tags:
+        - Course
+      summary: course table for support team to view
+      description: >-
+        table consists of: Course, Professor, Instructors, Enrolled Student,
+        Term
+      parameters:
+        - name: term_id
+          in: path
+          description: Identification number for a specific term.
+          required: true
+          schema:
+            type: integer
+            example: 10
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course:
+                  type: string
+                  example: Software Engineering
+                professors:
+                  type: array
+                  items:
+                    type: string
+                    example: 
+                      - faculty_name
+                      
+                instructors:
+                  type: array
+                  items:
+                    type: string
+                    example: 
+                      - instructor_name
+                students:
+                  type: array
+                  items:
+                    type: string
+                    example: 
+                      - student_name
+                term:
+                  type: string
+                  example: September23
+      operationId: '26'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                example:
+                  - 1
+                  - 2
+                  - 3
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+    put:
+      tags:
+        - Course
+      summary: course table for support team to view
+      description: >-
+        table consists of: Course Name, Professor, Instructors, Enrolled
+        Student, Term
+      parameters:
+        - name: term_id
+          in: path
+          description: Identification number for a specific term.
+          required: true
+          schema:
+            type: integer
+            example: 10
+      operationId: '27'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                example:
+                  - 1
+                  - 2
+                  - 3
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+  /course/{course_id}:
+    summary: for support team to delete the given course
+    delete:
+      tags:
+        - Course
+      summary: course table for support team to view
+      description: >-
+        table consists of: Course Name, Professor, Instructors, Enrolled
+        Student, Term
+      parameters:
+        - name: course_id
+          in: path
+          description: Identification number for a specific course.
+          required: true
+          schema:
+            type: integer
+            example: 10 
+      operationId: '28'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                example:
+                  - 1
+                  - 2
+                  - 3
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+  /student/details:
+    summary: student table with student details
+    get:
+      tags:
+        - Student
+      summary: table with details
+      description: 'table consists of: student_id, Level, Roll No., Name, Status, CGPA'
+      operationId: '29'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    student_id:
+                      type: integer
+                      example: 1
+                    level:
+                      type: string
+                      example: foundation
+                    Roll No:
+                      type: string
+                      example: 21f1005807
+                    name:
+                      type: string
+                      example: Priyanka
+                    status:
+                      type: boolean
+                      example: true
+                    cgpa:
+                      type: number
+                      example: 9.8
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+    post:
+      tags:
+        - Student
+      summary: course table for support team to view
+      description: 'table consists of: Level, Roll No., Name, Status, CGPA'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_id:
+                  type: integer
+                  example: 1
+                level:
+                  type: string
+                  example: foundation
+                Roll No:
+                  type: string
+                  example: 21f1005807
+                name:
+                  type: string
+                  example: Priyanka
+                status:
+                  type: boolean
+                  example: true
+                cgpa:
+                  type: number
+                  example: 9.8
+      operationId: '30'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  student_id:
+                    type: integer
+                    example: 1
+                  level:
+                    type: string
+                    example: foundation
+                  Roll No:
+                    type: string
+                    example: 21f1005807
+                  name:
+                    type: string
+                    example: Priyanka
+                  status:
+                    type: boolean
+                    example: true
+                  cgpa:
+                    type: number
+                    example: 9.8
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+  /student/{student_id}:
+    summary: To edit student details  
+    put:
+      tags:
+        - Student
+      summary: student detail edit
+      description: 'table consists of: Level, Roll No., Name, Status, CGPA'
+      parameters:
+        - name: student_id
+          in: path
+          description: Identification number for a specific term.
+          required: true
+          schema:
+            type: integer
+            example: 10
+      operationId: '31'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  student_id:
+                    type: integer
+                    example: 1
+                  level:
+                    type: string
+                    example: foundation
+                  Roll No:
+                    type: string
+                    example: 21f1005807
+                  name:
+                    type: string
+                    example: Priyanka
+                  status:
+                    type: boolean
+                    example: true
+                  cgpa:
+                    type: number
+                    example: 9.8
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+    delete:
+      tags:
+        - Student
+      summary: To delete student details
+      description: >-
+        table consists of: table consists of: Course Name, Professor,
+        Instructors, Enrolled Student, Term
+      parameters:
+        - name: student_id
+          in: path
+          description: Identification number for a specific student.
+          required: true
+          schema:
+            type: integer
+            example: 10
+      operationId: '32'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: Request Successfull
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+  /faculty/details:
+    summary: manage_faculty_table
+    get:
+      tags:
+        - Faculty
+      summary: table with details
+      description: 'table consists of: Faculty Name, email'
+      operationId: '35'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    faculty id:
+                      type: string
+                      example: Mr.Andrew
+                    faculty_name:
+                      type: string
+                      example: Mr.Andrew
+                    email:
+                      type: string
+                      example: andrew@gmail.com
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+  /faculty/{faculty_id}:
+    summary: manage_faculty_table delete
+    delete:
+      tags:
+        - Faculty
+      summary: manage_faculty_table
+      description: 'table consists of: Faculty Name, email'
+      parameters:
+        - name: faculty_id
+          in: path
+          description: Identification number for a specific faculty.
+          required: true
+          schema:
+            type: integer
+            example: 10
+      operationId: '36'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                      type: string
+                      example: Request successful
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request
+        '403':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: unauthorized
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: not found
+        '500':
+          description: internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: internal error
+        default:
+          description: Default error sample response
+ 
+    
